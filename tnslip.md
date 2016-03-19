@@ -49,7 +49,7 @@ The later is good for aligning stuff in form of columns.
 
 In case, if you did not notice, the arguments to `format` function are in single quotes. This is because there is nothing like a character in python, instead strings are considered elementary types. `'a'` is similar to `"a"`, which is similar to `"""a"""` or `'''a'''`. But, you should use either single quotes or double quotes, just stick to the convention of when to use which. This helps when your string consists of double quotes or a single quotes, as you can use the other one to wrap it up, avoiding backslashes and increasing the readability. 
 
-The triple quotes are used for docstrings. These are comments. Oops, sorry, not comments, actually more than comments. Single line comments are followed by `#` symbol. But [Docstrings](https://www.python.org/dev/peps/pep-0257/) are more than comments. They are special because you can access them with help of `__doc__` attribute associated with that object. Docstrings are written during writing a module(logically speaking here, it may be a class, package, method, function, or whatever), and they explain what the module does.
+The triple quotes are used for docstrings. These are comments. Oops, sorry, not comments, actually more than comments. (Single line comments are followed by `#` symbol.) But [Docstrings](https://www.python.org/dev/peps/pep-0257/) are more than comments. They are special because you can access them with help of `__doc__` attribute associated with that object. Docstrings are written during writing a module(logically speaking here, it may be a class, package, method, function, or whatever), and they explain what the module does.
 
 
 ```python
@@ -137,7 +137,7 @@ print(fancy_list[:3] + days)                  # you can combine(not exactly comb
 
 But lists have to badly pay for all these features and flexibility. They consume a lot of memory space in order to provide efficient functionality of so many features. If you wish to reduce the memory consumption (and to a certain extent the time complexity), then you have some other options too. You can use the [array](https://docs.python.org/3/library/array.html) module if you wish to interface with C. In other cases, you can choose the [array](https://docs.scipy.org/doc/numpy-1.10.0/reference/generated/numpy.array.html) from the numpy module, which itself is pretty efficient. Going a step further, we have [numexpr](https://github.com/pydata/numexpr) which does better cache utilization and uses multi-threading capabilities to accelerate the evaluation of long arrays!
 
-[Tuples](https://docs.python.org/3.5/library/stdtypes.html#tuple) are another built-in types that are completely identical to lists, except that they are immutable, i.e. the values of its elements can't be changed. The benefit of immutable objects is that you can have a fixed memory allocated to them and you need not to worry about modification of its contents. This also makes tuples [faster](http://stackoverflow.com/a/3340881) than lists.
+[Tuples](https://docs.python.org/3.5/library/stdtypes.html#tuple) are another built-in types that are completely identical to lists, except that they are immutable, i.e. the values of its elements can't be changed. The benefit of immutable objects is that you can have a fixed memory allocated to them and you need not to worry about modification of its contents further during the execution. This also makes tuples [faster](http://stackoverflow.com/a/3340881) than lists.
 
 You use parenthesis instead of square brackets in tuples.
 
@@ -278,6 +278,23 @@ This was what I meant when I said data is stored in programmer friendly(or rathe
 
 Like tuple unpacking, there is [dictionary unpacking](https://www.python.org/dev/peps/pep-0448/) too(from python3.5)! There also exist [sets](https://docs.python.org/3.5/library/stdtypes.html#set) which work as usual. They are also internally implemented as hash tables, and hence, give O(1) lookup time at average. You can find union, intersection, and symmetric difference of 2 sets. Set also has attributes to check whether another set is its subset or a superset.
 
+Now the fun part, the keys to a dictionary can be anything which is immutable, for eg strings in the above code. But since tuples are also immutable, so we can give them a chance too!
+
+Consider the following dictionary of points, that tells the quadrant in which the point lies.
+
+
+```python
+quadrant = {}
+quadrant[1, 2] = 'I'
+quadrant[1, 1] = 'I'
+quadrant[-1, 1] = 'IV'
+quadrant[-1, -2] = 'III'
+quadrant[1, -1] = 'II'
+print(quadrant)
+```
+
+The tuple provided as the key, need not to limit its size to 2, it can be as big as possible. So a key of tuple of size 3 would look like `octant[5, 6, -7] = 'V'`. I think that's enough on dictionaries, probably wee should move forward now.
+
 Okay, Lets look at some other things from the clutter that we should have picked up by now. Python comes with a Read Evaluate Print Loop(REPL), which allows programmer to test short code snippets. So, open the terminal, type `python3`, and start playing around with whatever comes next.
 
 Comparison operators are as usual. Additionally `==` operator checks for equivalence of values. There also exists `is` operator that checks for identity equivalence. Everything in python is an object. Each object has its identity which is returned by [id()](https://docs.python.org/2/library/functions.html#id) function as long integer, passing that object as its argument. Identity of an object in python is analogous to a memory location in C. So it is possible for 2 identifiers to have same identity, but not always!
@@ -299,7 +316,9 @@ print(a is b)
     False
 
 
-So always use `==` when comparing values and `is` when comparing identities. We have another operator, known as the membership operator `in`. This example is self-explanatory.
+So always use `==` when comparing values and `is` when comparing identities. Actually in python, we don't have variables storing some values in them, instead we have names which are nothing but just a binding to some data value which is stored in the memory. So names and their bindings to some data are like many to one mapping i.e. we can have multiple names bound to the same data, as in the case when `a = 5` and then `b = a`. If in the code later, we change `b` to 7, then the object bound to `a` also changes its value(in fact it is the same object).
+
+We have another operator, known as the membership operator `in`. This example is self-explanatory.
 
 
 ```python
@@ -389,13 +408,13 @@ for i in range(6):
     Saturn
 
 
-You can also use `for` to generate initial lists. This way is generally prefered in python. Whenever I say generally prefered in python, that means it is the pythonic way of doing things. There is always a particular way of solving problems in each language, not exactly a way, but a preferable choice of writing the code if there exist more than one way of achieving something. And probably, this is the point where I lack, so if you find something wrong, please notify me or push a commit to [myrepo](github.com). So here is how you can make lists so that you can use it further in your code.
+You can also use `for` to generate initial lists. This way is generally prefered in python. Whenever I say generally prefered in python, that means it is the pythonic way of doing things. There is always a particular way of solving problems in each language, not exactly a way, but a preferable choice of writing the code if there exist more than one way of achieving something. And probably, this is the point where I lack, so if you find something wrong, please notify me or push a commit to [myrepo](https://github.com/PiyushDeshmukh/tnslip). So here is how you can make lists so that you can use it further in your code.
 
 
 ```python
 squares = [i*i for i in range(20)]                          # squares of non-negative numbers upto 19
 squaresgt10 = [i*i for i in range(20) if i > 10]            # squares of numbers [11, 20)
-matrix = [[True for col in range(4)] for row in range(5)]   # 5by4 2-D matrix with all values True
+matrix = [[True for col in range(4)] for row in range(5)]   # 5by4 matrix with all values True
 print(squares)
 print(squaresgt10)
 print(matrix)
@@ -404,6 +423,87 @@ print(matrix)
     [0, 1, 4, 9, 16, 25, 36, 49, 64, 81, 100, 121, 144, 169, 196, 225, 256, 289, 324, 361]
     [121, 144, 169, 196, 225, 256, 289, 324, 361]
     [[True, True, True, True], [True, True, True, True], [True, True, True, True], [True, True, True, True], [True, True, True, True]]
+
+
+In this way, you can have one liner for generating lists, that too which is pretty clear to read and understand. When it comes to readaibility, its always a good idea to divide your code into logical modules(or may be I mean functions here). This means that particular group of lines does some particular stuff, which is logically separated from other group of lines. The implementation of this(phenomenon generally termed as modularity) is done by using functions. On a bigger scale, we can talk about dedicating a class, or a module(analogous to package or library) in the same way, so that a complex functionality is broken down to some short pieces of code, again to enhance the readability and making it less mess for programmers to work with complex systems.
+
+Functions are declared using `def` keyword, and as usual, the body is indented. Functions can take parameters, but are not mandatory. Functions can return a value. The moment a function returns a value, its execution stops and the corresponding values on the stack are erased. Hence, all the variables in function scope turn out of existence.
+
+
+```python
+def fizzbuzz(n):
+    for i in range(n):
+        print("Fizz"*(i%3 == 0) + " "*(i%15 == 0) + "Buzz"*(i%5 == 0) or str(i))
+    return "Done"
+
+if __name__ == '__main__':
+    print("This is fizzbuzz test")
+    result = fizzbuzz(20)
+    print(result)
+```
+
+    This is fizzbuzz test
+    Fizz Buzz
+    1
+    2
+    Fizz
+    4
+    Buzz
+    Fizz
+    7
+    8
+    Fizz
+    Buzz
+    11
+    Fizz
+    13
+    14
+    Fizz Buzz
+    16
+    17
+    Fizz
+    19
+    Done
+
+
+The good thing about python is that you can change the sequence of arguments passed if you mention them explicitly during the call.
+
+Another interesting feature of python is that it allows you to pause and resume the execution of a function. Such a construct is rather termed  as generator. A generator is differentaited from a function from the keyword `yield`. The `yield` statement basically allows you to pause the execution of a function by returning a value to the calling statement. Then the control flow goes as usual unless the function is called again. This time, when the function is called, the function resumes its execution from the statement right next where it paused earlier, and then continues the execution unless it encounters the next yield statement. It should be noted that the variables in the function scope retain their latest values everytime. So if a variable has been modified earlier, then its modiffied value is available to us everytime we call the function (and ofc unless we modify it again).
+
+This is how we can get a fibonacci series from a generator.
+
+
+```python
+def fib(n):
+    first = 0
+    second = 1
+    yield second
+    for i in range(n-1):
+        first, second = second, first + second
+        yield second
+
+print(fib(7))
+for num in fib(7):
+    print(num)
+```
+
+    <generator object fib at 0x7f6f40174990>
+    1
+    1
+    2
+    3
+    5
+    8
+    13
+
+
+As shown above, a call to a generator yields a generator object. However, in order to use it, one of the best practices is to use it as an iterator from a `for` loop. The `for` loop is again special in this sense because it automatically calls the next execution of the generator everytime it tends to make a new iteration.
+
+Generators become handy in cases when you want to consume less memory. For instance, if you call the `fib()` function to return many fibonacci numbers, like greater than a million, you obviously don't want it to return a list, as it shall make a huge memory consumption, instead you find for something that can return you the next fibonacci number whenever required on the fly, this way you can perform even better in terms of memory. This can easily be achieved with the help of generators, however, you get a drawback of this. As there is always a tradeoff, you pay for time when you attempt to reduce memory consumption. The same goes with the use of generators where you pay for speed because everytime you demand for the next returned value, the execution of the generator is resumed and carried out. Therefore, before it can continue executing current instructions, your CPU executes the instructions inside the generator to obtain the next value demanded dynamically. Later when it encounters the `yield` statement, it continues the execution from just after where the call was made.
+
+So now the question comes, how often do we use generators in real life? And the answer is Frequently! Did you remember the `range()` function we discussed earlier? My apologies, I cheated there! It isn't a function, it is a generator!
+
+The truth is, we have 2 things in python2, first is the `range()` which is a function, and second is the `xrange()` which is a generator. But when we move to python3, `xrange()` has been removed, and `range()` exists as a generator.
 
 
 ## abouttheauthor
