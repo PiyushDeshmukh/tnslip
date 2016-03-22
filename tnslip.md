@@ -1,10 +1,14 @@
 
 # thenotsolongintroductiontopython
 
-Hello folks, This article is a short introduction to python, or rather should say not so long one. This article is a casual read, and has been written for those people who have prior knowledge in some other programming language. This read, was designed by keeping in mind about giving a gentle introduction of python to programmers, and from nowhere, it is supposed to replace a tutorial.
+So, is it the case that you have got some time free on your schedule? And you have heard a lot of about python. How python is changing the world? Why programmers fall in love with it? What makes it so special?
+
+Interested in knowing this, or rather feeling it? Attracted towards the language? Interested in getting acquainted with it? Wish to see some of the python scripts in action? So you are at the correct place, this article has been written to be read casually. Bear in mind, this document was designed by keeping in mind about giving a gentle introduction of python and from nowhere, it is supposed to replace a tutorial.
 
 
-Python was designed by [Guido Van Rossum](https://twitter.com/gvanrossum), who currently works at Dropbox, and is also known as BDFL, i.e. Benevolent Dictator For Life in the python community for his continues contributions in the process of Python development. Python is a multi-paradigm language, which was basically designed for ..... well idk, I can't see any specific area to point out, but can see almost everywhere.
+Python was designed by [Guido Van Rossum](https://twitter.com/gvanrossum), who currently works at Dropbox, and is also known as BDFL, i.e. Benevolent Dictator For Life in the python community for his continues contributions in the process of Python development. Python is a multi-paradigm language, which was basically designed for .........  well idk, I can't see any specific area to point out, but can see almost everywhere.
+
+Python focuses a lot on readability. As it is said, "A code is written once, but read many times.", python focuses on both, the writability and the readability. With respect to writability, I mean that the speed of development of a project in python is generally higher than that of any other language. Program performance matters, but programmer performances also matters equally. Quoting [Donald Knuth](https://en.wikipedia.org/wiki/Donald_Knuth), "Premature optimization is the root of all evil". As python is a high level language, i.e. you need not to go into low level implementation of something, this saves you a lot of time. Implementing something is quick, and saves a lot of time, the time that you could have lost during maintainance because you were unnecessarily optimizing something that wasn't of enough worth. You can start and easily reach a working model. On the same side, readability is also one of the main purpose of writing code in python, maintainance is painless, and far more less frustating than other languages. Ofc, this has to do a lot with your code writing habits, but it always counts for each language, so makes no difference here. Writing bad code in python is possible, but that is not what is preferable, if you stick to conventions, you will be happy, atleast happier than the programmers of other langauges.
 
 Unless explicitly mentioned, all the code snippets are for python3. Lets start with the classic code sample, here is the hello world
 
@@ -295,6 +299,14 @@ print(quadrant)
 
 The tuple provided as the key, need not to limit its size to 2, it can be as big as possible. So a key of tuple of size 3 would look like `octant[5, 6, -7] = 'V'`. I think that's enough on dictionaries, probably wee should move forward now.
 
+Everything in python is an object, I mean, everything in python is internally implemented as an object. As a consequence, they have attributes associated with them, you can have a list of those using `dir()`.
+
+Python is strongly typed language and it does not do implicit type conversions. It is expected from the programmer to do all the type castings explicitly so that it is always clear what sort of data object has been binded to a variable. For instance, when you do `int("42")`, you know the obtained value is an integer, and if `float("3.1415)`, then the obtained value is float. 
+
+This is one of the key principles on which the language was built. As [The Zen of Python](https://www.python.org/dev/peps/pep-0020/) states, "Explicit is better than implicit." This not only deals with explicit type casting, but a programming habit to do anything explicitly, like passing errors or declaring namespaces, a word on both of these later.
+
+PEP20 deals with preferred way of doing things with python. PEP20 has 20, sorry 19, such good habits expected to be encorporated by the programmers. The 1, in my opinion, has probably been left by keeping in mind that such a list can never be completed as there is no perfect way of doing one thing. So they wanted to give a space to that futuristic way that does something in a more better way, the more pythonic way! I will try to illustrate each of them(19) or atleast tell you about before we encounter EOF.
+
 Okay, Lets look at some other things from the clutter that we should have picked up by now. Python comes with a Read Evaluate Print Loop(REPL), which allows programmer to test short code snippets. So, open the terminal, type `python3`, and start playing around with whatever comes next.
 
 Comparison operators are as usual. Additionally `==` operator checks for equivalence of values. There also exists `is` operator that checks for identity equivalence. Everything in python is an object. Each object has its identity which is returned by [id()](https://docs.python.org/2/library/functions.html#id) function as long integer, passing that object as its argument. Identity of an object in python is analogous to a memory location in C. So it is possible for 2 identifiers to have same identity, but not always!
@@ -468,6 +480,51 @@ if __name__ == '__main__':
 
 The good thing about python is that you can change the sequence of arguments passed if you mention them explicitly during the call.
 
+
+```python
+def tell_me_about_language(name, designer, extension = None):
+    print(name + " was designed by " + designer + " and is stored in a " + extension + " file.")
+
+tell_me_about_language("Python", "Guido Van Rossum", ".py")
+tell_me_about_language("Javascript", extension = ".js", designer = "Brendan Eich")
+```
+
+    Python was designed by Guido Van Rossum and is stored in a .py file.
+    Javascript was designed by Brendan Eich and is stored in a .js file.
+
+
+This feature is good to use when you have a large number of arguments available to pass to the function.
+
+We can also pass indefinite number of arguments, and get them all in a list. This can be done by appending `*` before the variable name.
+
+
+```python
+def tell_me_about_language(name, *influenced):
+    print(name + " has influenced " + ", ".join(influenced) + ".")
+
+tell_me_about_language("Python", "CoffeeScript", "D", "Go", "Ruby", "Swift")
+```
+
+    Python has influenced CoffeeScript, D, Go, Ruby, Swift
+
+
+Lets get more crazy, what if we want to know what keyword was used while passing the parameters? This is where you can append a double asterisk `**` to the variable name, and have a dictionary with keywords as keys and correspoding arguments as the values.
+
+
+```python
+def tell_me_about_language(name, **details):
+    print(name + " is a good language!")
+    print("It was designed by " + details["designer"] + ", and is " + details["paradigm"] + " language.")
+
+tell_me_about_language("C", designer = "Dennis Ritchie", extension = ".c", paradigm = "imperative")
+```
+
+    C is a good language!
+    It was designed by Dennis Ritchie, and is imperative
+
+
+In python, arguments are passed by assignment. Its straightforward that you cannot change the values of immutable objects passed as arguments, however, in case of mutable objects you can modify the values and this modification will reflect outside the function scope unless you do a rebinding of that variable inside the function as it is obvious that the outer scope will be aware of nothing.
+
 Another interesting feature of python is that it allows you to pause and resume the execution of a function. Such a construct is rather termed  as generator. A generator is differentaited from a function from the keyword `yield`. The `yield` statement basically allows you to pause the execution of a function by returning a value to the calling statement. Then the control flow goes as usual unless the function is called again. This time, when the function is called, the function resumes its execution from the statement right next where it paused earlier, and then continues the execution unless it encounters the next yield statement. It should be noted that the variables in the function scope retain their latest values everytime. So if a variable has been modified earlier, then its modiffied value is available to us everytime we call the function (and ofc unless we modify it again).
 
 This is how we can get a fibonacci series from a generator.
@@ -487,7 +544,7 @@ for num in fib(7):
     print(num)
 ```
 
-    <generator object fib at 0x7f6f40174990>
+    <generator object fib at 0x7f52fd84a5a0>
     1
     1
     2
@@ -505,6 +562,8 @@ So now the question comes, how often do we use generators in real life? And the 
 
 The truth is, we have 2 things in python2, first is the `range()` which is a function, and second is the `xrange()` which is a generator. But when we move to python3, `xrange()` has been removed, and `range()` exists as a generator.
 
+
+Besides `range()`, There are several [built-in](https://docs.python.org/3/library/functions.html) functions, which we will see whenever necessary.
 
 ## abouttheauthor
 
